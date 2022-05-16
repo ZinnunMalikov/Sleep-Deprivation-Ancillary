@@ -163,7 +163,7 @@ for a in range(len(bed_week)):
 avg_bed = list(np.add(bed_week*5/(60*7), bed_weekend*2/(60*7)))
 ```
 
-# 3. Data Analysis
+# 3. Data Analysis of Actual Sleep Times
 ## 3.1 Distribution of Average Actual Sleep Times
 - The first generated plot displayed the distribution of average actual sleep times (hrs) for the 1029 surveyed individuals. Additionally, the five number summary (min, q1, median, q3, max) was generated.
 ```python
@@ -238,7 +238,56 @@ plt.show()
 ```
 ![img3](https://user-images.githubusercontent.com/97144011/168616788-134e8f89-625f-4792-b443-f5e6f58449a3.png)
 
-Based on the data, it is evident that approximately 40% of the surveyed individuals slept for less than seven hours. This figure is concerning, as it highlights the presence of sleep deprivation in the United States. 
+- Based on the data, it is evident that approximately 40% of the surveyed individuals slept for less than seven hours. This figure is concerning, as it highlights the presence of sleep deprivation in the United States. 
+
+# 4. Data Analysis of Sleep Quality and Light Exposure 
+## 4.1 Sleep Times (hrs) vs. Sleep Quality (1-5)
+- We next considered the relationship between sleep quality and sleep times.
+```python
+#Relationship between sleep duration and sleep quality
+sleep_quality = array_sleep[:, 61]
+sleep_quality = list(sleep_quality)
+
+avg1 = []
+avg2 = []
+avg3 = []
+avg4 = []
+avg5 = []
+
+for a in range(len(sleep_quality)):
+  if sleep_quality[a] == 1:
+    avg1.append(avg_total[a])
+  if sleep_quality[a] == 2:
+    avg2.append(avg_total[a])
+  if sleep_quality[a] == 3:
+    avg3.append(avg_total[a])
+  if sleep_quality[a] == 4:
+    avg4.append(avg_total[a])
+  if sleep_quality[a] == 5:
+    avg5.append(avg_total[a])
+
+#Quantitative v. Categorical
+
+# make data:
+D = np.array([avg1, avg2, avg3, avg4, avg5], dtype=object)
+labels = ["1", "2", "3", "4", "5"]
+
+# plot
+fig, ax = plt.subplots()
+VP = ax.boxplot(D, labels = labels, positions=[2, 4, 6, 8, 10], widths=1.5, patch_artist=True,
+                showmeans=False, showfliers=False,
+                medianprops={"color": "white", "linewidth": 0.5},
+                boxprops={"facecolor": "C1", "edgecolor": "white",
+                          "linewidth": 0.5},
+                whiskerprops={"color": "C1", "linewidth": 1.5},
+                capprops={"color": "C1", "linewidth": 1.5})
+plt.xlabel("Sleep Quality Score (1-5)")
+plt.ylabel("Sleep Time (hrs)")
+plt.title("Distribution of Sleep Duration (hrs) for Varying Sleep Quality Scores (1-5) of 1029 Individuals (2015)")
+
+plt.show()
+```
+![img4](https://user-images.githubusercontent.com/97144011/168618105-79642283-d142-4490-a3dc-6705258a18ee.png)
 
 
 
