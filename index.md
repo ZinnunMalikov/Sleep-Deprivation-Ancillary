@@ -289,7 +289,7 @@ plt.show()
 ```
 ![img4](https://user-images.githubusercontent.com/97144011/168618105-79642283-d142-4490-a3dc-6705258a18ee.png)
 
-- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincign evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
+- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincing evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
 ```python
 #Chi Squared Test for Independence
 
@@ -458,7 +458,7 @@ plt.title("Distribution of Sleep Duration (hrs) for Varying Exposure to External
 plt.show()
 ```
 ![img5](https://user-images.githubusercontent.com/97144011/168624946-02bee1a3-8001-4e76-9b0a-1bb6268cedf3.png)
-- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincign evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
+- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincing evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
 
 ```python
 #Chi-Squared Test for Independence
@@ -717,5 +717,236 @@ plt.show()
     Purple: Frequency of '5' responses
 
 ![img6](https://user-images.githubusercontent.com/97144011/168626964-c2b0dc2e-84eb-47e1-9f7d-70b3bc6b00bd.png)
+- An alternative representation of the data is shown below.
+```python
+#Multiple Bar Charts Representation
+
+N = 5
+ind = np.arange(N) 
+width = 0.15
+  
+bar1 = plt.bar(ind, g1, width)  
+bar2 = plt.bar(ind+width, g2, width)
+bar3 = plt.bar(ind+width*2, g3, width)
+bar4 = plt.bar(ind+width*3, g4, width)
+bar5 = plt.bar(ind+width*4, g5, width)
+  
+  
+plt.xticks(ind+width,['1', '2', '3', '4', '5'])
+
+plt.xlabel('Light Exposure (1-5)')
+plt.ylabel('Frequency within Light Exposure Group')
+plt.title('Distributions of Sleep Quality Responses (1-5) for Varying Levels of External Light Exposure (1-5)')
+
+print("Blue: Frequency of '1' responses for sleep quality") 
+print("Orange: Frequency of '2' responses for sleep quality")
+print("Green: Frequency of '3' responses for sleep quality") 
+print("Red: Frequency of '4' responses for sleep quality")
+print("Purple: Frequency of '5' responses for sleep quality") 
+print('')
+plt.show()
+```
+    Blue: Frequency of '1' responses for sleep quality
+    Orange: Frequency of '2' responses for sleep quality
+    Green: Frequency of '3' responses for sleep quality
+    Red: Frequency of '4' responses for sleep quality
+    Purple: Frequency of '5' responses for sleep quality
 
 ![img7](https://user-images.githubusercontent.com/97144011/168627130-7ea22fe7-0c30-4750-b6d8-73c708fd6522.png)
+- Notice thatcthe proportion of '1' and '2' responses for sleep quality are much higher for those who responded with a '5' to the external light exposure question.
+
+## 4.4 Sleep Proportion
+- We now define the variable sleep proportion, which is the ratio of the estimated actual sleep time to the total time in bed. Note that due to estimation, some proportions were over 1. These values were rounded down to 1 for the purpose of data use.
+
+```python
+#Ratio of Sleep Time to Time in Bed
+bed_week = array_sleep[:, 25]
+bed_weekend = array_sleep[:, 33]
+
+for a in range(len(bed_week)):
+  if isNaN(bed_week[a]) == True:
+    bed_week[a] = 475.3
+  if isNaN(bed_weekend[a]) == True:
+    bed_weekend[a] = 524.25
+
+avg_bed = list(np.add(bed_week*5/(60*7), bed_weekend*2/(60*7)))
+
+#Make data
+x = avg_bed
+
+#Limits
+xlow = min(avg_bed)
+xhigh = max(avg_bed)
+
+#Plot:
+fig, ax = plt.subplots()
+
+ax.hist(x, bins=32, linewidth=0.5, edgecolor="white")
+
+ax.set(xlim=(0, xhigh))
+
+plt.title("Distrbution of the Average Time in Bed (hrs) of 1029 Individuals (2015)")
+plt.xlabel("Hours")
+plt.ylabel("Frequency")
+
+plt.show()
+```
+![img8](https://user-images.githubusercontent.com/97144011/168628600-4b1a649f-bdd2-4f6a-a1ce-0f866bccd15e.png)
+
+## 4.5 Sleep Proportion vs. Sleep Quality (1-5)
+- Afterward, we investigated the relationship between sleep quality scores and sleep proportion.
+```python
+#Ratio of Estimated Actual Sleep Time to Time in Bed
+ratio_sb = np.divide(avg_total, avg_bed)
+ratio_sb=list(ratio_sb)
+
+#Account for Discrepancy from Estimation
+for a in range(len(ratio_sb)):
+  if ratio_sb[a] > 1:
+    ratio_sb[a] = 1
+
+avg1 = []
+avg2 = []
+avg3 = []
+avg4 = []
+avg5 = []
+
+for a in range(len(sleep_quality)):
+  if sleep_quality[a] == 1:
+    avg1.append(ratio_sb[a])
+  if sleep_quality[a] == 2:
+    avg2.append(ratio_sb[a])
+  if sleep_quality[a] == 3:
+    avg3.append(ratio_sb[a])
+  if sleep_quality[a] == 4:
+    avg4.append(ratio_sb[a])
+  if sleep_quality[a] == 5:
+    avg5.append(ratio_sb[a])
+
+#Quantitative v. Categorical
+# make data:
+D = np.array([avg1, avg2, avg3, avg4, avg5], dtype=object)
+labels = ["1", "2", "3", "4", "5"]
+
+# plot
+fig, ax = plt.subplots()
+VP = ax.boxplot(D, labels = labels, positions=[2, 4, 6, 8, 10], widths=1.5, patch_artist=True,
+                showmeans=False, showfliers=False,
+                medianprops={"color": "white", "linewidth": 0.5},
+                boxprops={"facecolor": "C1", "edgecolor": "white",
+                          "linewidth": 0.5},
+                whiskerprops={"color": "C1", "linewidth": 1.5},
+                capprops={"color": "C1", "linewidth": 1.5})
+plt.xlabel("Sleep Quality Score (1-5)")
+plt.ylabel("Sleep Proportion")
+plt.title("Distribution of Sleep Proportion for Varying Sleep Quality Scores (1-5) of 1029 Individuals (2015)")
+
+plt.show()
+```
+![img9](https://user-images.githubusercontent.com/97144011/168629396-cc3bebbc-eb80-468b-95c7-14f1d38791fb.png)
+
+- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincing evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
+```python
+#Chi Squared Test for Independence
+
+#Observed Counts
+r1c1 = []
+r1c2 = []
+r1c3 = []
+r1c4 = []
+r1c5 = []
+
+r2c1 = []
+r2c2 = []
+r2c3 = []
+r2c4 = []
+r2c5 = []
+
+r3c1 = []
+r3c2 = []
+r3c3 = []
+r3c4 = []
+r3c5 = []
+
+r4c1 = []
+r4c2 = []
+r4c3 = []
+r4c4 = []
+r4c5 = []
+
+row1 = [r1c1, r1c2, r1c3, r1c4, r1c5]
+row2 = [r2c1, r2c2, r2c3, r2c4, r2c5]
+row3 = [r3c1, r3c2, r3c3, r3c4, r3c5]
+row4 = [r4c1, r4c2, r4c3, r4c4, r4c5]
+
+for a in range(len(ratio_sb)):
+  for b in range(len(row1)):
+    if ratio_sb[a] < 0.6 and sleep_quality[a] == b+1:
+      row1[b].append(a)
+    if 0.6 <= ratio_sb[a] < 0.7 and sleep_quality[a] == b+1:
+      row2[b].append(a)
+    if 0.7 <= ratio_sb[a] < 0.8 and sleep_quality[a] == b+1:
+      row3[b].append(a)
+    if 0.8 <= ratio_sb[a] and sleep_quality[a] == b+1:
+      row4[b].append(a)
+
+for a in range(len(row1)):
+  row1[a] = len(row1[a])
+  row2[a] = len(row2[a])
+  row3[a] = len(row3[a])
+  row4[a] = len(row4[a])
+
+two_way_tab = np.array([row1, row2, row3, row4])
+
+row_sums = np.array([[sum(row1)], [sum(row2)], [sum(row3)], [sum(row4)], [1029]])
+
+column_sums = np.array([np.add(np.add(np.add(np.array(row1), np.array(row2)), np.array(row3)), np.array(row4))])
+two_way_tab = np.append(two_way_tab, column_sums, axis=0)
+two_way_tab = np.append(two_way_tab, row_sums, axis=1)
+
+two_way_df = pd.DataFrame(two_way_tab)
+two_way_df.columns = ["1", "2", "3", "4", "5", "Total"]
+two_way_df.index = ["<6 hrs", "6-7 hrs", "7-8 hrs", "8+ hours", "Total"]
+
+print("Observed Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Proportion")
+print(two_way_df)
+
+#Expected Counts
+two_way_tab2 = np.empty((4, 5), float)
+
+row_sums_list = [sum(row1), sum(row2), sum(row3), sum(row4)]
+column_sums_list = list(two_way_tab[4, 0:5])
+
+for a in range(len(row_sums_list)):
+  for b in range(len(column_sums_list)):
+    two_way_tab2[a, b] = float(two_way_tab2[a, b])
+    two_way_tab2[a, b] = np.around(float(row_sums_list[a]*column_sums_list[b]/1029), 3)
+
+two_way_tab2 = np.append(two_way_tab2, column_sums, axis=0)
+two_way_tab2 = np.append(two_way_tab2, row_sums, axis=1)
+
+two_way_dfE = pd.DataFrame(two_way_tab2)
+two_way_dfE.columns = ["1", "2", "3", "4", "5", "Total"]
+two_way_dfE.index = ["<0.6", "0.6-0.7", "0.7-0.8", "0.8+", "Total"]
+
+print("")
+print("Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Proportion")
+print(two_way_dfE)
+```
+    Observed Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Proportion
+               1   2    3    4    5  Total
+    <6 hrs     5  10   12   10    3     40
+    6-7 hrs    4  10   28   12    2     56
+    7-8 hrs    8  20   78   35    4    145
+    8+ hours  12  51  240  349  136    788
+    Total     29  91  358  406  145   1029
+
+    Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Proportion
+                  1       2        3        4        5   Total
+    <0.6      1.127   3.537   13.916   15.782    5.637    40.0
+    0.6-0.7   1.578   4.952   19.483   22.095    7.891    56.0
+    0.7-0.8   4.086  12.823   50.447   57.211   20.432   145.0
+    0.8+     22.208  69.687  274.154  310.912  111.040   788.0
+    Total    29.000  91.000  358.000  406.000  145.000  1029.0
+- The following code calculates the chi-squared tets statistic using the two two-way tables above.
+
