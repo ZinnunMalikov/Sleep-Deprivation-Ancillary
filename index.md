@@ -1009,3 +1009,6 @@ plt.show()
 ![img11](https://user-images.githubusercontent.com/97144011/168633775-a5b4d147-e187-4112-bca7-3b793c0ff665.png)
 - Since there is no leftover pattern in the residual plot and the residuals are randomly scattered around the residual line, a linear model between actual sleep time and x = sleep proportion is appropriate.
 
+# 5. Conclusion
+- Overall, it is evident that sleep deprivation is a prevalent issue in the United States. With the data showing that lower sleep quality scores are associated with shorter sleep times, action must be taken to combat this issue. Fortunately, the reducing exposure to external light can potential improve sleep quality, as the data analysis found an association between external light exposure (1-5) and sleep quality (1-5).
+
