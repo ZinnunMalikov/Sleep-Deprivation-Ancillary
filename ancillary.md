@@ -178,10 +178,11 @@ plt.title("Distrbution of the Average Sleep Times of 1029 Individuals (2015)")
 plt.xlabel("Hours")
 plt.ylabel("Frequency")
 print(five_sum(avg_total))
-
+print("Standard Deviation: " + str(stan_dev(avg_total)))
 plt.show()
 ```
     [1.5357142857142858, 6.285714285714286, 7.0, 7.928571428571429, 12.75]
+    Standard Deviation: 1.2593518283610086
 
 ![img1](https://user-images.githubusercontent.com/97144011/168615643-21c49d95-154b-4727-b23b-8cc68d178892.png)
 
@@ -911,9 +912,11 @@ ax.set(xlim=(0, xhigh))
 plt.title("Distrbution of the Average Time in Bed (hrs) of 1029 Individuals (2015)")
 plt.xlabel("Hours")
 plt.ylabel("Frequency")
-
+print("Standard Deviation: " + str(stan_dev(avg_bed)))
 plt.show()
 ```
+    Standard Deviation: 1.5274188227084846
+
 ![img8](https://user-images.githubusercontent.com/97144011/168628600-4b1a649f-bdd2-4f6a-a1ce-0f866bccd15e.png)
 
 ## 4.5 Sleep Proportion vs. Sleep Quality (1-5)
@@ -1105,8 +1108,12 @@ plt.title('Relationship Between Actual Seep Time (hrs) and Sleep Proportion')
 
 print("LSRL: y = " + str(a) + " + " + str(b) + "x")
 print("r = " + str(r))
+print("Sx: " + str(outpr[0]))
+print("Sy: " + str(outpr[1]))
 plt.show()
 ```
+    Sx: 0.1265597257047017
+    Sy: 1.2593518283610086
     LSRL: y = 2.477111181612429 + 5.262424688649582x
     r = 0.5288522318690922
 ![img10](https://user-images.githubusercontent.com/97144011/168631527-2499fae4-cfee-4f2a-a097-51cb7538d6d7.png)
