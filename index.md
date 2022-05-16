@@ -560,16 +560,16 @@ print(two_way_dfE)
 
     Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)
                     1        2        3       4       5   Total
-    <6 hrs     79.644   49.892   20.750   4.120   2.136   157.0
-    6-7 hrs   130.880   81.988   34.099   6.770   3.510   258.0
-    7-8 hrs   184.146  115.356   47.977   9.525   4.939   363.0
-    8+ hours  125.808   78.810   32.777   6.507   3.374   248.0
+    <6 hrs     79.877   50.038   20.811   4.132   2.142   157.0
+    6-7 hrs   131.263   82.228   34.199   6.789   3.520   258.0
+    7-8 hrs   184.684  115.693   48.117   9.553   4.953   363.0
+    8+ hours  126.175   79.041   32.873   6.526   3.384   248.0
     Total     522.000  327.000  136.000  27.000  14.000  1026.0
 
 - The following code calculates the chi-squared tets statistic using the two two-way tables above.
 ```python
 #Chi Squared Test Statistic
-#Note: Four out of the twenty (20%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we should be cautious of the results.
+#Note: Five out of the twenty (25%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we should be cautious of the results.
 
 row_num, col_num = two_way_tab2.shape
 
@@ -581,7 +581,7 @@ for a in range(row_num - 1):
 
 print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
-    The chi-squared statistic for this test is: 14.738147494040719
+    The chi-squared statistic for this test is: 14.687197372831275
 
 - The test statistic of 14.738 with a df = 12 yields a p-value far above 0.05 so we fail to reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
 
@@ -753,7 +753,137 @@ plt.show()
     Purple: Frequency of '5' responses for sleep quality
 
 ![img7](https://user-images.githubusercontent.com/97144011/168627130-7ea22fe7-0c30-4750-b6d8-73c708fd6522.png)
-- Notice thatcthe proportion of '1' and '2' responses for sleep quality are much higher for those who responded with a '5' to the external light exposure question.
+- Notice that the proportion of '1' and '2' responses for sleep quality are much higher for those who responded with a '5' to the external light exposure question. We investigated this further by conducting a chi squared test for independence.
+```python
+#Chi Squared Test for Independence
+
+r1c1 = []
+r1c2 = []
+r1c3 = []
+r1c4 = []
+r1c5 = []
+
+r2c1 = []
+r2c2 = []
+r2c3 = []
+r2c4 = []
+r2c5 = []
+
+r3c1 = []
+r3c2 = []
+r3c3 = []
+r3c4 = []
+r3c5 = []
+
+r4c1 = []
+r4c2 = []
+r4c3 = []
+r4c4 = []
+r4c5 = []
+
+r5c1 = []
+r5c2 = []
+r5c3 = []
+r5c4 = []
+r5c5 = []
+
+row1 = [r1c1, r1c2, r1c3, r1c4, r1c5]
+row2 = [r2c1, r2c2, r2c3, r2c4, r2c5]
+row3 = [r3c1, r3c2, r3c3, r3c4, r3c5]
+row4 = [r4c1, r4c2, r4c3, r4c4, r4c5]
+row5 = [r5c1, r5c2, r5c3, r5c4, r5c5]
+
+for a in range(len(sleep_quality)):
+  for b in range(len(row1)):
+    if sleep_quality[a] == 1 and light_exp[a] == b+1:
+      row1[b].append(a)
+    if sleep_quality[a] == 2 and light_exp[a] == b+1:
+      row2[b].append(a)
+    if sleep_quality[a] == 3 and light_exp[a] == b+1:
+      row3[b].append(a)
+    if sleep_quality[a] == 4 and light_exp[a] == b+1:
+      row4[b].append(a)
+    if sleep_quality[a] == 5 and light_exp[a] == b+1:
+      row5[b].append(a)
+
+for a in range(len(row1)):
+  row1[a] = len(row1[a])
+  row2[a] = len(row2[a])
+  row3[a] = len(row3[a])
+  row4[a] = len(row4[a])
+  row5[a] = len(row5[a])
+
+two_way_tab = np.array([row1, row2, row3, row4, row5])
+
+row_sums = np.array([[sum(row1)], [sum(row2)], [sum(row3)], [sum(row4)], [sum(row5)], [1026]])
+
+column_sums = np.array([np.add(np.add(np.add(np.add(np.array(row1), np.array(row2)), np.array(row3)), np.array(row4)), np.array(row5))])
+two_way_tab = np.append(two_way_tab, column_sums, axis=0)
+two_way_tab = np.append(two_way_tab, row_sums, axis=1)
+
+two_way_df = pd.DataFrame(two_way_tab)
+two_way_df.columns = ["L1", "L2", "L3", "L4", "L5", "Total"]
+two_way_df.index = ["1", "2", "3", "4","5", "Total"]
+
+print("Observed Counts for Relative Frequency of Sleep Quality (1-5) vs. External Light Exposure (1-5)")
+print(two_way_df)
+
+#Expected Counts
+two_way_tab2 = np.empty((5, 5), float)
+
+row_sums_list = [sum(row1), sum(row2), sum(row3), sum(row4), sum(row5)]
+column_sums_list = list(two_way_tab[5, 0:5])
+
+for a in range(len(row_sums_list)):
+  for b in range(len(column_sums_list)):
+    two_way_tab2[a, b] = float(two_way_tab2[a, b])
+    two_way_tab2[a, b] = np.around(float(row_sums_list[a]*column_sums_list[b]/1026), 3)
+
+two_way_tab2 = np.append(two_way_tab2, column_sums, axis=0)
+two_way_tab2 = np.append(two_way_tab2, row_sums, axis=1)
+
+two_way_dfE = pd.DataFrame(two_way_tab2)
+two_way_dfE.columns = ["L1", "L2", "L3", "L4", "L5", "Total"]
+two_way_dfE.index = ["1", "2", "3", "4","5", "Total"]
+
+print("")
+print("Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. External Light Exposure (1-5)")
+print(two_way_dfE)
+```
+    Observed Counts for Relative Frequency of Sleep Quality (1-5) vs. External Light Exposure (1-5)
+            L1   L2   L3  L4  L5  Total
+    1       15    7    2   2   3     29
+    2       44   32   11   1   3     91
+    3      155  112   75   9   5    356
+    4      211  136   43  14   2    406
+    5       97   40    5   1   1    144
+    Total  522  327  136  27  14   1026
+
+    Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. External Light Exposure (1-5)
+                L1       L2       L3      L4      L5   Total
+    1       14.754    9.243    3.844   0.763   0.396    29.0
+    2       46.298   29.003   12.062   2.395   1.242    91.0
+    3      181.123  113.462   47.189   9.368   4.858   356.0
+    4      206.561  129.398   53.817  10.684   5.540   406.0
+    5       73.263   45.895   19.088   3.789   1.965   144.0
+    Total  522.000  327.000  136.000  27.000  14.000  1026.0
+- The following code calculates the chi squared tets statistic for this test:
+```python
+#Chi Squared Test Statistic
+#Note: Eight out of the twenty (40%) expected counts are under 5. Be cautious of the following results.
+
+row_num, col_num = two_way_tab2.shape
+
+chi_sq_stat = 0
+for a in range(row_num - 1):
+  for b in range(col_num - 1):
+    partial = ((two_way_tab[a, b] - two_way_tab2[a, b])**2)/two_way_tab2[a, b]
+    chi_sq_stat += partial
+
+print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
+```
+    The chi-squared statistic for this test is: 71.8455958459828
+- The test statistic of 71.846 with a df = 16 yields a p-value far above 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed.
 
 ## 4.4 Sleep Proportion
 - We now define the variable sleep proportion, which is the ratio of the estimated actual sleep time to the total time in bed. Note that due to estimation, some proportions were over 1. These values were rounded down to 1 for the purpose of data use.
@@ -1010,5 +1140,5 @@ plt.show()
 - Since there is no leftover pattern in the residual plot and the residuals are randomly scattered around the residual line, a linear model between actual sleep time and x = sleep proportion is appropriate.
 
 # 5. Conclusion
-- Overall, it is evident that sleep deprivation is a prevalent issue in the United States. With the data showing that lower sleep quality scores are associated with shorter sleep times, action must be taken to combat this issue. Fortunately, the reducing exposure to external light can potential improve sleep quality, as the data analysis found an association between external light exposure (1-5) and sleep quality (1-5).
+- Overall, it is evident that sleep deprivation is a prevalent issue in the United States. With the data showing that lower sleep quality scores are associated with shorter sleep times, action must be taken to combat this issue. Fortunately, reducing exposure to external light can potential improve sleep quality, as the data analysis found an association between external light exposure (1-5) and sleep quality (1-5).
 
