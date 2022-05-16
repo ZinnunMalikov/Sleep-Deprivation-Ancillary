@@ -1,4 +1,1 @@
-The "Sleep-Deprivation-Ancillary" repository is divided into three branches: main, gh-pages, images. To navigate through the branches,
-click on the drop-down menu next to the branhc icon. The Jupyter notebook titled "Final_Sleep_Research_Data_Analysis.ipynb" can be
-foudn in the main branch. It may take time to open it, so it is recommended to open "ancillary.md" file in the gh-pages branch. A link
-to the file is: https://github.com/ZinnunMalikov/Sleep-Deprivation-Ancillary/blob/gh-pages/ancillary.md
+The "Sleep-Deprivation-Ancillary" repository is divided into three branches: main, gh-pages, images. To navigate through the branches, click on the drop-down menu next to the branhc icon. The Jupyter notebook titled "Final_Sleep_Research_Data_Analysis.ipynb" can be found in the main branch. It may take time to open it, so it is recommended to open "ancillary.md" file in the gh-pages branch. A link to the file is: https://github.com/ZinnunMalikov/Sleep-Deprivation-Ancillary/blob/gh-pages/ancillary.md
