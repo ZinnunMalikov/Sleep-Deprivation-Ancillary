@@ -17,7 +17,7 @@ author:     Zinnun Malikov
 - National Sleep Foundation www.sleepfoundation.org
 - 2015 Sleep in America Poll
 
-### 1.3 Data Information
+## 1.3 Data Information
 - The National Sleep Foundation counducted an online survey study regarding the sleep of Americans in December 2014 and received responses from 1,029 adults aged 18 years or older. The survey asked participants about their sleep quality, time spent in bed, estimate of actual sleep obtained, etc.
 
 # 2. Introduction for Data Analysis
