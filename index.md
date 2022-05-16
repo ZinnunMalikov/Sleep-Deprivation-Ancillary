@@ -45,30 +45,53 @@ import numpy as np
 import pandas as pd
 ```
 
-- The following code was used to upload the raw data file and convert it to a usable dataframe:
+- Afterward, the raw data file, named "2015data.csv", was converted to a pandas dataframe
 ```python
 #Convert raw data to a usable dataframe array
 df_sleep = pd.read_csv(io.BytesIO(uploaded['2015data.csv']))
 array_sleep = df_sleep.to_numpy()
 ```
+## 2.3 Basic Functions
+- Before the data analysis, two mathematical functions, `stand_dev(inp)` and `reg(inp1, inp2)`, and one debugging function, `isNaN(ni)`, were defined. The function `stand_dev(inp)` takes a `list` input and returns the sample standrad deviation. The function `reg(inp1, inp2)` takes two `list` inputs (x and y) and returns the list `std1, std2, r, A, B`, where `std1` is the sample standard deviation of the `list` input for inp1, `std2` is the sample standard deviation of the `list` input for inp2, and `r`, `A`, and `B` are the regression constants. Finally, the function `isNaN(ni)` is used to detect NaN outputs, which indicate nonresponse or an empty value.
+```python
+#Sample Standard Deviation
+def stan_dev(inp):
+  mean = sum(inp)/len(inp)
+  vari = 0
+  for a in range(len(inp)):
+    vari = vari + (1/(len(inp)-1))*(inp[a]-mean)*(inp[a]-mean)
+  return(vari**0.5)
 
-```markdown
-Syntax highlighted code block
+#Regression Function
+def reg(inp1, inp2):
+  mean1 = sum(inp1)/len(inp1)
+  mean2 = sum(inp2)/len(inp2)
+  vari1 = 0
+  vari2 = 0
+  for a in range(len(inp1)):
+    vari1 = vari1 + (1/(len(inp1)-1))*(inp1[a]-mean1)*(inp1[a]-mean1)
 
-# Header 1
-## Header 2
-### Header 3
+  for a in range(len(inp1)):
+    vari2 = vari2 + (1/(len(inp2)-1))*(inp2[a]-mean2)*(inp2[a]-mean2)
 
-- Bulleted
-- List
+  std1 = vari1**0.5
+  std2 = vari2**0.5
 
-1. Numbered
-2. List
+  r = 0
+  for a in range(len(inp1)):
+    r = r + (1/(len(inp1)-1))*(inp1[a]-mean1)*(inp2[a]-mean2)/(std1*std2)
+  
+  B = r*std2/std1
+  A = mean2-mean1*B
 
-**Bold** and _Italic_ and `Code` text
+  return [std1, std2, r, A, B]
 
-[Link](url) and ![Image](src)
+#Data Correction
+def isNaN(ni):
+  return ni != ni
 ```
+
+
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
