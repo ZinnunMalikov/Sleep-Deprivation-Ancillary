@@ -40,19 +40,25 @@ tags:
 - The following code was used to import necessary packages, modules, or libraries:
 ```python
 import io
+import math
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 ```
 
-- Afterward, the raw data file, named "2015data.csv", was converted to a pandas dataframe
+- Afterward, the raw data file, named "2015data.csv", was uploaded and converted to a pandas dataframe
 ```python
-#Convert raw data to a usable dataframe array
+#Upload File
+from google.colab import files
+uploaded = files.upload()
+#File Name: 2015data.csv
+
+#Convert raw data to a usable dataframe and numpy array
 df_sleep = pd.read_csv(io.BytesIO(uploaded['2015data.csv']))
 array_sleep = df_sleep.to_numpy()
 ```
 ## 2.3 Basic Functions
-- Before the data analysis, two mathematical functions, `stand_dev(inp)` and `reg(inp1, inp2)`, and one debugging function, `isNaN(ni)`, were defined. The function `stand_dev(inp)` takes a list input and returns the sample standrad deviation. The function `reg(inp1, inp2)` takes two list inputs (x and y) and returns the list `std1, std2, r, A, B`, where `std1` is the sample standard deviation of the list input for inp1, `std2` is the sample standard deviation of the list input for inp2, and `r`, `A`, and `B` are the regression constants. Finally, the function `isNaN(ni)` is used to detect NaN outputs, which indicate nonresponse or an empty value.
+- Before the data analysis, three mathematical functions, `stand_dev(inp)`, `reg(inp1, inp2)`, and `five_sum(inp_li)`, and one debugging function, `isNaN(ni)`, were defined. The function `stand_dev(inp)` takes a list input and returns the sample standrad deviation. The function `reg(inp1, inp2)` takes two list inputs (x and y) and returns the list `std1, std2, r, A, B`, where `std1` is the sample standard deviation of the list input for inp1, `std2` is the sample standard deviation of the list input for inp2, and `r`, `A`, and `B` are the regression constants. Additionally, the function`five_sum(inp_li)` takes a list input and returns the five numebr summary. Finally, the function `isNaN(ni)` is used to detect NaN outputs, which indicate nonresponse or an empty value.
 ```python
 #Sample Standard Deviation
 def stan_dev(inp):
@@ -90,19 +96,98 @@ def reg(inp1, inp2):
   
   return [std1, std2, r, A, B]
 
+#Five Number Summary
+def five_sum(inp_li):
+  inp_li.sort()
+  dnum = len(inp_li)
+
+  if len(inp_li) % 2 == 1:
+      median = inp_li[int((dnum + 1)/2 - 1)]
+      lh = inp_li[0:int((dnum + 1)/2 - 1)]
+      uh = inp_li[int((dnum+1)/2):]
+  else:
+      median = (inp_li[int(dnum/2) - 1] + inp_li[int(dnum/2)])/2
+      lh = inp_li[0: int(dnum/2)]
+      uh = inp_li[int(dnum/2):]
+
+
+  if len(lh) % 2 == 1:
+      q1 = lh[int((len(lh) + 1)/2 - 1)]
+  else:
+      q1 = (lh[int(len(lh)/2 - 1)] + lh[int(len(lh)/2)])/2
+
+  if len(uh) % 2 == 1:
+      q3 = uh[int((len(uh) + 1)/2 - 1)]
+  else:
+      q3 = (uh[int(len(uh)/2 - 1)] + uh[int(len(uh)/2)])/2
+
+  iqr = q3 - q1
+  return([min(inp_li), q1, median, q3, max(inp_li)])
+
 #Data Correction
 def isNaN(ni):
   return ni != ni
 ```
 
+## 2.4 Data Construction and Correction
+- Parts of the numpy array were then stored to several variables. The variables `avg_weekdays` and `avg_weekends` gave the total estimated actual sleep times (minutes) per day during the weekdays and weekends, respectively, and the variable `avg_total` averaged these values and converted them to hours. Afterward, the variable `sleep_quality` was created to store the responses of individuals when asked about their sleep quality (1-5 point scale), and the variable `light_exp` was created to store the responses of individuals when asked how frequently external light exposure disturbed their sleep (1-5 point scale). Finally, the variables `bed_week` and `bed_weekend` gave the total estimated times spent in bed (minutes) per day during the weekdays and weekends, respectively, and the variable `avg_bed` averaged these values and converted them to hours.
+```python
+avg_weekdays = array_sleep[:, 39]
+avg_weekends = array_sleep[:, 40]
+avg_total = list(np.add(avg_weekdays*5/(60*7), avg_weekends*2/(60*7)))
+sleep_quality = array_sleep[:, 61]
+light_exp = array_sleep[:, 98]
+bed_week = array_sleep[:, 25]
+bed_weekend = array_sleep[:, 33]
+avg_bed = list(np.add(bed_week*5/(60*7), bed_weekend*2/(60*7)))
+```
+- However, some issues arose. There were some instances in which values were empty due to nonresponse. For example, some of the numerical values returned NaN values and the categorical responses for the five point scale were recorded as a -1. To account for this, the `isNaN(ni)` function was used to detect empty values and replace them with the mean value of that variable for the sample. Values of -1 were excluded, however.
+```python
+#Correction for avg_weekdays, avg_weekends, avg_total
+for a in range(len(avg_weekdays)):
+  if isNaN(avg_weekdays[a]) == True:
+    avg_weekdays[a] = 411.45
+  if isNaN(avg_weekends[a]) == True:
+    avg_weekends[a] = 449.9
+    
+avg_total = list(np.add(avg_weekdays*5/(60*7), avg_weekends*2/(60*7)))
 
+#Correction for bed_week, bed_weeknd, avg_bed
+for a in range(len(bed_week)):
+  if isNaN(bed_week[a]) == True:
+    bed_week[a] = 475.3
+  if isNaN(bed_weekend[a]) == True:
+    bed_weekend[a] = 524.25
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+avg_bed = list(np.add(bed_week*5/(60*7), bed_weekend*2/(60*7)))
+```
 
-### Jekyll Themes
+# 3. Data Analysis
+## 3.1 Distribution of Average Actual Sleep Times
+- The first generated plot displayed the distribution of average actual sleep times (hrs) for the 1029 surveyed individuals. Additionally, the five number summary (min, q1, median, q3, max) was generated.
+```python
+#Make data
+x = avg_total
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ZinnunMalikov/Sleep-Deprivation-Ancillary/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+#Limits
+xlow = min(avg_total)
+xhigh = max(avg_total)
 
-### Support or Contact
+#Plot:
+fig, ax = plt.subplots()
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+ax.hist(x, bins=32, linewidth=0.5, edgecolor="white")
+
+ax.set(xlim=(0, xhigh))
+
+plt.title("Distrbution of the Average Sleep Times of 1029 Individuals (2015)")
+plt.xlabel("Hours")
+plt.ylabel("Frequency")
+print(five_sum(avg_total))
+
+plt.show()
+```
+    [1.5357142857142858, 6.285714285714286, 7.0, 7.928571428571429, 12.75]
+
+![png](/img/img1.png)
+
