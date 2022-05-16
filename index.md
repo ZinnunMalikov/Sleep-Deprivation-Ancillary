@@ -58,8 +58,10 @@ array_sleep = df_sleep.to_numpy()
 def stan_dev(inp):
   mean = sum(inp)/len(inp)
   vari = 0
+  
   for a in range(len(inp)):
     vari = vari + (1/(len(inp)-1))*(inp[a]-mean)*(inp[a]-mean)
+    
   return(vari**0.5)
 
 #Regression Function
@@ -68,17 +70,24 @@ def reg(inp1, inp2):
   mean2 = sum(inp2)/len(inp2)
   vari1 = 0
   vari2 = 0
+  
   for a in range(len(inp1)):
     vari1 = vari1 + (1/(len(inp1)-1))*(inp1[a]-mean1)*(inp1[a]-mean1)
+    
   for a in range(len(inp1)):
     vari2 = vari2 + (1/(len(inp2)-1))*(inp2[a]-mean2)*(inp2[a]-mean2)
+    
   std1 = vari1**0.5
   std2 = vari2**0.5
+  
   r = 0
+  
   for a in range(len(inp1)):
     r = r + (1/(len(inp1)-1))*(inp1[a]-mean1)*(inp2[a]-mean2)/(std1*std2)
+    
   B = r*std2/std1
   A = mean2-mean1*B
+  
   return [std1, std2, r, A, B]
 
 #Data Correction
