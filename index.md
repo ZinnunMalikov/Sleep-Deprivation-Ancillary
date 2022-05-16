@@ -36,11 +36,20 @@ tags:
 5. `DOV_TOTALWEEK`: estimate of actual sleep obtained per day on weekendss (in minutes)
 6. `Q15_c`: how often does light (from either inside or outside) make it more difficult to get a good night's sleep, 5-point Likert Scale (1: never, 2: rarely, 3: sometimes, 4: often, 5: always)
 
-## 2.2 Python Imports
-- The following packages, modules, or libraries were used:
+## 2.2 Python Imports 
+- The following code was used to import necessary packages, modules, or libraries:
 ```python
-from google.colab import files
-uploaded = files.upload()
+import io
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+```
+
+- The following code was used to upload the raw data file and convert it to a usable dataframe:
+```python
+#Convert raw data to a usable dataframe array
+df_sleep = pd.read_csv(io.BytesIO(uploaded['2015data.csv']))
+array_sleep = df_sleep.to_numpy()
 ```
 
 ```markdown
