@@ -583,7 +583,7 @@ print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 14.687197372831275
 
-- The test statistic of 14.738 with a df = 12 yields a p-value far above 0.05 so we fail to reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
+- The test statistic of 14.687 with a df = 12 yields a p-value far above 0.05 so we fail to reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
 
 ## 4.3 Sleep Quality (1-5) vs. Light Exposure (1-5)
 - To investigate the relationship between these two categorical variables, a segmented bar graph was constructed.
