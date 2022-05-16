@@ -193,7 +193,7 @@ plt.show()
 ![img1](https://user-images.githubusercontent.com/97144011/168615643-21c49d95-154b-4727-b23b-8cc68d178892.png)
 
 ## 3.2 Pie Chart Representation
-- To better visualize the data form the histogram above, two pie charts that divided individuals into groups by sleep times were created. The first chart included the following labels: '<6 hours', '6-7 hours', '7-8 hours', '8+ hours'. The second chart included the following labels: '<7 hours', '7+ hours'. Note thta the labels were created from general sleep time suggestions.
+- To better visualize the data from the histogram above, two pie charts that divided individuals into groups by sleep times were created. The first chart included the following labels: '<6 hours', '6-7 hours', '7-8 hours', '8+ hours'. The second chart included the following labels: '<7 hours', '7+ hours'. Note thta the labels were created from general sleep time suggestions.
 ```python
 #Percent of those who slept: (<6), (6-7), (7, 8), (8+) hours
 p1 = 0
@@ -569,7 +569,7 @@ print(two_way_dfE)
 - The following code calculates the chi-squared tets statistic using the two two-way tables above.
 ```python
 #Chi Squared Test Statistic
-#Note: Four out of the twenty (20%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we shoudl be cautious of the results.
+#Note: Four out of the twenty (20%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we should be cautious of the results.
 
 row_num, col_num = two_way_tab2.shape
 
@@ -583,7 +583,7 @@ print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 14.738147494040719
 
-- The test statistic of 14.738 with a df = 12 yields a p-value far above 0.05 so we reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
+- The test statistic of 14.738 with a df = 12 yields a p-value far above 0.05 so we fail to reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
 
 ## 4.3 Sleep Quality (1-5) vs. Light Exposure (1-5)
 - To investigate the relationship between these two categorical variables, a segmented bar graph was constructed.
@@ -949,4 +949,63 @@ print(two_way_dfE)
     0.8+     22.208  69.687  274.154  310.912  111.040   788.0
     Total    29.000  91.000  358.000  406.000  145.000  1029.0
 - The following code calculates the chi-squared tets statistic using the two two-way tables above.
+```python
+#Chi Squared Test Statistic
+#Note: Four out of the twenty (20%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we should be cautious of the results.
+
+row_num, col_num = two_way_tab2.shape
+
+chi_sq_stat = 0
+for a in range(row_num - 1):
+  for b in range(col_num - 1):
+    partial = ((two_way_tab[a, b] - two_way_tab2[a, b])**2)/two_way_tab2[a, b]
+    chi_sq_stat += partial
+
+print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
+```
+    The chi-squared statistic for ths test is: 119.219445429627
+- The test statistic of 119.219 with a df = 12 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep proportion in individuals like those surveyed.
+
+## 4.6 Actual Sleep Times (hrs) vs. Sleep Proportion
+- Finally, a regression model between actual sleep time s(hrs) and sleep proprtion was created to visualize the correlation between the two variables.
+```python
+#Relationship Between Actual Sleep Time (hrs) and Sleep Proportion
+outpr = reg(ratio_sb, avg_total)
+r, a, b = outpr[2], outpr[3], outpr[4]
+x = np.linspace(0.1, 1, 100)
+y = a + b*x
+plt.scatter(ratio_sb, avg_total, s=1.5, alpha=1)
+plt.plot(x, y, color = 'black')
+plt.xlabel("Sleep Proportion")
+plt.ylabel('Actual Sleep Time (hrs)')
+plt.title('Relationship Between Actual Seep Time (hrs) and Sleep Proportion')
+
+print("LSRL: y = " + str(a) + " + " + str(b) + "x")
+print("r = " + str(r))
+plt.show()
+```
+![img10](https://user-images.githubusercontent.com/97144011/168631527-2499fae4-cfee-4f2a-a097-51cb7538d6d7.png)
+- The regression model reveals that there is a moderately strong, positive, linear association between sleep proportion and sleep time (hrs). We confirmed this by constructing a residual plot.
+```python
+#Residual Plot
+outpr = reg(ratio_sb, avg_total)
+r, a, b = outpr[2], outpr[3], outpr[4]
+
+resids = []
+for l in range(len(ratio_sb)):
+  calc = avg_total[l] - (a+b*ratio_sb[l])
+  resids.append(calc)
+
+x = np.linspace(0.1, 1, 100)
+y = 0*x
+
+plt.scatter(ratio_sb, resids, s=1.5, alpha=1)
+plt.plot(x, y, color = 'black')
+plt.xlabel("Sleep Proportion")
+plt.ylabel('Residual')
+plt.title('Residual Plot for LSRL Relating Actual Seep Time (hrs) to X = Sleep Proportion')
+plt.show()
+```
+![img11](https://user-images.githubusercontent.com/97144011/168633775-a5b4d147-e187-4112-bca7-3b793c0ff665.png)
+- Since there is no leftover pattern in the residual plot and the residuals are randomly scattered around the residual line, a linear model between actual sleep time and x = sleep proportion is appropriate.
 
