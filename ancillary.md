@@ -1,17 +1,10 @@
 ---
-layout:     post
 title:      Sleep Research Data Analysis with Python 
 subtitle:   project ancillary for lit review .
 base_url: "zinnunmalikov"
 url: ""
 date:       2022-5-15
 author:     Zinnun Malikov
-catalog: true
-tags:
-    - Python
-    - Jupyter
-    - Data Analysis
-    - Sleep Deprivation
 ---
 
 # 1. Background Information
