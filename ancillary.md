@@ -4,11 +4,8 @@ title:      Sleep Research Data Analysis with Python
 subtitle:   project ancillary for lit review .
 date:       2022-5-15
 author:     Zinnun Malikov
-header-img: 
 catalog: true
-
 tags:
-
     - Python
     - Jupyter
     - Data Analysis
