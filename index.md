@@ -393,5 +393,20 @@ print(two_way_dfE)
     8+ hours   7.046  22.109   86.978   98.639   35.228   250.0
     Total     29.000  91.000  358.000  406.000  145.000  1029.0
 
+- The following code calculates the chi-squared tets statistic using the two two-way tables above.
+```python
+#Chi Squared Test Statistic
+#Note: One out of the twenty (5%) expected counts are under 5. However, for general purposes, the chi quared test can be continued
+
+row_num, col_num = two_way_tab2.shape
+
+chi_sq_stat = 0
+for a in range(row_num - 1):
+  for b in range(col_num - 1):
+    partial = ((two_way_tab[a, b] - two_way_tab2[a, b])**2)/two_way_tab2[a, b]
+    chi_sq_stat += partial
+
+print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
+```
 
 
