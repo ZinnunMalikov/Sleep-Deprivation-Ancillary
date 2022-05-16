@@ -52,7 +52,7 @@ df_sleep = pd.read_csv(io.BytesIO(uploaded['2015data.csv']))
 array_sleep = df_sleep.to_numpy()
 ```
 ## 2.3 Basic Functions
-- Before the data analysis, two mathematical functions, `stand_dev(inp)` and `reg(inp1, inp2)`, and one debugging function, `isNaN(ni)`, were defined. The function `stand_dev(inp)` takes a `list` input and returns the sample standrad deviation. The function `reg(inp1, inp2)` takes two `list` inputs (x and y) and returns the list `std1, std2, r, A, B`, where `std1` is the sample standard deviation of the `list` input for inp1, `std2` is the sample standard deviation of the `list` input for inp2, and `r`, `A`, and `B` are the regression constants. Finally, the function `isNaN(ni)` is used to detect NaN outputs, which indicate nonresponse or an empty value.
+- Before the data analysis, two mathematical functions, `stand_dev(inp)` and `reg(inp1, inp2)`, and one debugging function, `isNaN(ni)`, were defined. The function `stand_dev(inp)` takes a list input and returns the sample standrad deviation. The function `reg(inp1, inp2)` takes two list inputs (x and y) and returns the list `std1, std2, r, A, B`, where `std1` is the sample standard deviation of the list input for inp1, `std2` is the sample standard deviation of the list input for inp2, and `r`, `A`, and `B` are the regression constants. Finally, the function `isNaN(ni)` is used to detect NaN outputs, which indicate nonresponse or an empty value.
 ```python
 #Sample Standard Deviation
 def stan_dev(inp):
@@ -70,20 +70,15 @@ def reg(inp1, inp2):
   vari2 = 0
   for a in range(len(inp1)):
     vari1 = vari1 + (1/(len(inp1)-1))*(inp1[a]-mean1)*(inp1[a]-mean1)
-
   for a in range(len(inp1)):
     vari2 = vari2 + (1/(len(inp2)-1))*(inp2[a]-mean2)*(inp2[a]-mean2)
-
   std1 = vari1**0.5
   std2 = vari2**0.5
-
   r = 0
   for a in range(len(inp1)):
     r = r + (1/(len(inp1)-1))*(inp1[a]-mean1)*(inp2[a]-mean2)/(std1*std2)
-  
   B = r*std2/std1
   A = mean2-mean1*B
-
   return [std1, std2, r, A, B]
 
 #Data Correction
