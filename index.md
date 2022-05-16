@@ -289,6 +289,109 @@ plt.show()
 ```
 ![img4](https://user-images.githubusercontent.com/97144011/168618105-79642283-d142-4490-a3dc-6705258a18ee.png)
 
+- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincign evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
+```python
+#Chi Squared Test for Independence
+
+#Observed Counts
+r1c1 = []
+r1c2 = []
+r1c3 = []
+r1c4 = []
+r1c5 = []
+
+r2c1 = []
+r2c2 = []
+r2c3 = []
+r2c4 = []
+r2c5 = []
+
+r3c1 = []
+r3c2 = []
+r3c3 = []
+r3c4 = []
+r3c5 = []
+
+r4c1 = []
+r4c2 = []
+r4c3 = []
+r4c4 = []
+r4c5 = []
+
+row1 = [r1c1, r1c2, r1c3, r1c4, r1c5]
+row2 = [r2c1, r2c2, r2c3, r2c4, r2c5]
+row3 = [r3c1, r3c2, r3c3, r3c4, r3c5]
+row4 = [r4c1, r4c2, r4c3, r4c4, r4c5]
+
+for a in range(len(avg_total)):
+  for b in range(len(row1)):
+    if avg_total[a] < 6 and sleep_quality[a] == b+1:
+      row1[b].append(a)
+    if 6 <= avg_total[a] < 7 and sleep_quality[a] == b+1:
+      row2[b].append(a)
+    if 7 <= avg_total[a] < 8 and sleep_quality[a] == b+1:
+      row3[b].append(a)
+    if 8 <= avg_total[a] and sleep_quality[a] == b+1:
+      row4[b].append(a)
+
+for a in range(len(row1)):
+  row1[a] = len(row1[a])
+  row2[a] = len(row2[a])
+  row3[a] = len(row3[a])
+  row4[a] = len(row4[a])
+
+two_way_tab = np.array([row1, row2, row3, row4])
+
+row_sums = np.array([[sum(row1)], [sum(row2)], [sum(row3)], [sum(row4)], [1029]])
+
+column_sums = np.array([np.add(np.add(np.add(np.array(row1), np.array(row2)), np.array(row3)), np.array(row4))])
+two_way_tab = np.append(two_way_tab, column_sums, axis=0)
+two_way_tab = np.append(two_way_tab, row_sums, axis=1)
+
+two_way_df = pd.DataFrame(two_way_tab)
+two_way_df.columns = ["1", "2", "3", "4", "5", "Total"]
+two_way_df.index = ["<6 hrs", "6-7 hrs", "7-8 hrs", "8+ hours", "Total"]
+
+print("Observed Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)")
+print(two_way_df)
+
+#Expected Counts
+two_way_tab2 = np.empty((4, 5), float)
+
+row_sums_list = [sum(row1), sum(row2), sum(row3), sum(row4)]
+column_sums_list = list(two_way_tab[4, 0:5])
+
+for a in range(len(row_sums_list)):
+  for b in range(len(column_sums_list)):
+    two_way_tab2[a, b] = float(two_way_tab2[a, b])
+    two_way_tab2[a, b] = np.around(float(row_sums_list[a]*column_sums_list[b]/1029), 3)
+
+two_way_tab2 = np.append(two_way_tab2, column_sums, axis=0)
+two_way_tab2 = np.append(two_way_tab2, row_sums, axis=1)
+
+two_way_dfE = pd.DataFrame(two_way_tab2)
+two_way_dfE.columns = ["1", "2", "3", "4", "5", "Total"]
+two_way_dfE.index = ["<6 hrs", "6-7 hrs", "7-8 hrs", "8+ hours", "Total"]
+
+print("")
+print("Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)")
+print(two_way_dfE)
+```
+    Observed Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)
+               1   2    3    4    5  Total
+    <6 hrs    20  39   61   26   11    157
+    6-7 hrs    4  24  125   92   13    258
+    7-8 hrs    1  20  120  170   53    364
+    8+ hours   4   8   52  118   68    250
+    Total     29  91  358  406  145   1029
+
+    Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)
+                   1       2        3        4        5   Total
+    <6 hrs     4.425  13.884   54.622   61.946   22.123   157.0
+    6-7 hrs    7.271  22.816   89.761  101.796   36.356   258.0
+    7-8 hrs   10.259  32.190  126.639  143.619   51.293   364.0
+    8+ hours   7.046  22.109   86.978   98.639   35.228   250.0
+    Total     29.000  91.000  358.000  406.000  145.000  1029.0
 
 
 
