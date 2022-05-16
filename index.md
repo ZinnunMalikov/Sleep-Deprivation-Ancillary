@@ -6,6 +6,8 @@ date:       2022-5-15
 author:     Zinnun Malikov
 header-img: 
 catalog: true
+image: /images/img1.png![img1](https://user-images.githubusercontent.com/97144011/168614537-c11a2700-eb81-41e1-a1a6-99c279d4c2fe.png)
+
 tags:
 
     - Python
