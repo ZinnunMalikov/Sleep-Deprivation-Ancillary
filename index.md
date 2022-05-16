@@ -210,10 +210,10 @@ for num in avg_total:
   else:
     p4 += 1
 
-#Narrow Pie Chart
+#First Pie Chart
 labels = ["<6 hours", "6-7 hours", "7-8 hours", "8+ hours"]
 sizes = [p1, p2, p3, p4]
-explode=[0,0,0,0]
+explode = [0, 0, 0, 0]
 
 plt.pie(sizes, autopct='%1.0f%%', explode=explode,labels=labels,shadow=True,startangle=90, )
 plt.axis("equal")
@@ -222,6 +222,7 @@ plt.subplots_adjust(left=0.2, bottom=0.1, right=2.5)
 plt.show()
 ```
 ![img2](https://user-images.githubusercontent.com/97144011/168616669-7c88274e-8532-436e-8641-67fe58225629.png)
+Note that the groups do not sum to 100% due to rounding.
 
 ```python
 #Second Pie Chart
