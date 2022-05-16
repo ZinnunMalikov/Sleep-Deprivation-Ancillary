@@ -406,9 +406,315 @@ for a in range(row_num - 1):
     partial = ((two_way_tab[a, b] - two_way_tab2[a, b])**2)/two_way_tab2[a, b]
     chi_sq_stat += partial
 
-print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
+print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
-    The chi-squared statistic for ths test is: 235.6631248649211
+    The chi-squared statistic for this test is: 235.6631248649211
 
 - The test statistic of 235.663 with a df = 12 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep time (hrs) in individuals like those surveyed.
+
+## 4.2 Sleep Times (hrs) vs. Exposure to External Light (1-5)
+- We next investigated the relationship between sleep times (hrs) and exposure to external light (1-5).
+```python
+#Relationship Between Light Exposure (1-5) and Sleep Time (hrs)
+light_exp = array_sleep[:, 98]
+light_exp = list(light_exp)
+
+lig1 = []
+lig2 = []
+lig3 = []
+lig4 = []
+lig5 = []
+
+for a in range(len(light_exp)):
+  if light_exp[a] == 1:
+    lig1.append(avg_total[a])
+  if light_exp[a] == 2:
+    lig2.append(avg_total[a])
+  if light_exp[a] == 3:
+    lig3.append(avg_total[a])
+  if light_exp[a] == 4:
+    lig4.append(avg_total[a])
+  if light_exp[a] == 5:
+    lig5.append(avg_total[a])
+
+#Quantitative v. Categorical
+
+# make data:
+D = np.array([lig1, lig2, lig3, lig4, lig5], dtype=object)
+labels = ["1", "2", "3", "4", "5"]
+
+# plot
+fig, ax = plt.subplots()
+VP = ax.boxplot(D, labels = labels, positions=[2, 4, 6, 8, 10], widths=1.5, patch_artist=True,
+                showmeans=False, showfliers=False,
+                medianprops={"color": "white", "linewidth": 0.5},
+                boxprops={"facecolor": "C1", "edgecolor": "white",
+                          "linewidth": 0.5},
+                whiskerprops={"color": "C1", "linewidth": 1.5},
+                capprops={"color": "C1", "linewidth": 1.5})
+plt.xlabel("External Light Exposure (1-5)")
+plt.ylabel("Sleep Time(hrs)")
+plt.title("Distribution of Sleep Duration (hrs) for Varying Exposure to External Light (1-5) of 1029 Individuals (2015)")
+plt.show()
+```
+![img5](https://user-images.githubusercontent.com/97144011/168624946-02bee1a3-8001-4e76-9b0a-1bb6268cedf3.png)
+- To further investigate this relationship, we conducted a chi-squared test for independence to determine if there was convincign evidence at the 5% level for a difference in distributions of sleep times for varying sleep quality scores. The following code creates the observed and expected counts tables.
+
+```python
+#Chi-Squared Test for Independence
+#Observed Counts
+for a in range(len(light_exp)):
+  if isNaN(light_exp[a]) == True:
+    light_exp[a] = 2
+
+r1c1 = []
+r1c2 = []
+r1c3 = []
+r1c4 = []
+r1c5 = []
+
+r2c1 = []
+r2c2 = []
+r2c3 = []
+r2c4 = []
+r2c5 = []
+
+r3c1 = []
+r3c2 = []
+r3c3 = []
+r3c4 = []
+r3c5 = []
+
+r4c1 = []
+r4c2 = []
+r4c3 = []
+r4c4 = []
+r4c5 = []
+
+row1 = [r1c1, r1c2, r1c3, r1c4, r1c5]
+row2 = [r2c1, r2c2, r2c3, r2c4, r2c5]
+row3 = [r3c1, r3c2, r3c3, r3c4, r3c5]
+row4 = [r4c1, r4c2, r4c3, r4c4, r4c5]
+
+for a in range(len(avg_total)):
+  for b in range(len(row1)):
+    if avg_total[a] < 6 and light_exp[a] == b+1:
+      row1[b].append(a)
+    if 6 <= avg_total[a] < 7 and light_exp[a] == b+1:
+      row2[b].append(a)
+    if 7 <= avg_total[a] < 8 and light_exp[a] == b+1:
+      row3[b].append(a)
+    if 8 <= avg_total[a] and light_exp[a] == b+1:
+      row4[b].append(a)
+
+for a in range(len(row1)):
+  row1[a] = len(row1[a])
+  row2[a] = len(row2[a])
+  row3[a] = len(row3[a])
+  row4[a] = len(row4[a])
+
+two_way_tab = np.array([row1, row2, row3, row4])
+
+row_sums = np.array([[sum(row1)], [sum(row2)], [sum(row3)], [sum(row4)], [1026]])
+
+column_sums = np.array([np.add(np.add(np.add(np.array(row1), np.array(row2)), np.array(row3)), np.array(row4))])
+two_way_tab = np.append(two_way_tab, column_sums, axis=0)
+two_way_tab = np.append(two_way_tab, row_sums, axis=1)
+
+two_way_df = pd.DataFrame(two_way_tab)
+two_way_df.columns = ["1", "2", "3", "4", "5", "Total"]
+two_way_df.index = ["<6 hrs", "6-7 hrs", "7-8 hrs", "8+ hours", "Total"]
+
+print("Observed Counts for Relative Frequency of External Light Exposure (1-5) vs. Sleep Time (hrs)")
+print(two_way_df)
+
+#Expected Counts
+two_way_tab2 = np.empty((4, 5), float)
+
+row_sums_list = [sum(row1), sum(row2), sum(row3), sum(row4)]
+column_sums_list = list(two_way_tab[4, 0:5])
+
+for a in range(len(row_sums_list)):
+  for b in range(len(column_sums_list)):
+    two_way_tab2[a, b] = float(two_way_tab2[a, b])
+    two_way_tab2[a, b] = np.around(float(row_sums_list[a]*column_sums_list[b]/1029), 3)
+
+two_way_tab2 = np.append(two_way_tab2, column_sums, axis=0)
+two_way_tab2 = np.append(two_way_tab2, row_sums, axis=1)
+
+two_way_dfE = pd.DataFrame(two_way_tab2)
+two_way_dfE.columns = ["1", "2", "3", "4", "5", "Total"]
+two_way_dfE.index = ["<6 hrs", "6-7 hrs", "7-8 hrs", "8+ hours", "Total"]
+
+print("")
+print("Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)")
+print(two_way_dfE)
+```
+    Observed Counts for Relative Frequency of External Light Exposure (1-5) vs. Sleep Time (hrs)
+                1    2    3   4   5  Total
+    <6 hrs     84   44   22   3   4    157
+    6-7 hrs   136   75   34   7   6    258
+    7-8 hrs   178  119   48  14   4    363
+    8+ hours  124   89   32   3   0    248
+    Total     522  327  136  27  14   1026
+
+    Expected Counts for Relative Frequency of Sleep Quality (1-5) vs. Sleep Time (hrs)
+                    1        2        3       4       5   Total
+    <6 hrs     79.644   49.892   20.750   4.120   2.136   157.0
+    6-7 hrs   130.880   81.988   34.099   6.770   3.510   258.0
+    7-8 hrs   184.146  115.356   47.977   9.525   4.939   363.0
+    8+ hours  125.808   78.810   32.777   6.507   3.374   248.0
+    Total     522.000  327.000  136.000  27.000  14.000  1026.0
+
+- The following code calculates the chi-squared tets statistic using the two two-way tables above.
+```python
+#Chi Squared Test Statistic
+#Note: Four out of the twenty (20%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we shoudl be cautious of the results.
+
+row_num, col_num = two_way_tab2.shape
+
+chi_sq_stat = 0
+for a in range(row_num - 1):
+  for b in range(col_num - 1):
+    partial = ((two_way_tab[a, b] - two_way_tab2[a, b])**2)/two_way_tab2[a, b]
+    chi_sq_stat += partial
+
+print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
+```
+    The chi-squared statistic for this test is: 14.738147494040719
+
+- The test statistic of 14.738 with a df = 12 yields a p-value far above 0.05 so we reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
+
+## 4.3 Sleep Quality (1-5) vs. Light Exposure (1-5)
+- To investigate the relationship between these two categorical variables, a segmented bar graph was constructed.
+```python
+#Relationship Between Light Exposure and Sleep Quality
+mlig1 = []
+mlig2 = []
+mlig3 = []
+mlig4 = []
+mlig5 = []
+
+for a in range(len(light_exp)):
+  if light_exp[a] == 1:
+    mlig1.append(sleep_quality[a])
+  if light_exp[a] == 2:
+    mlig2.append(sleep_quality[a])
+  if light_exp[a] == 3:
+    mlig3.append(sleep_quality[a])
+  if light_exp[a] == 4:
+    mlig4.append(sleep_quality[a])
+  if light_exp[a] == 5:
+    mlig5.append(sleep_quality[a])
+
+mlig1_summary = []
+mlig2_summary = []
+mlig3_summary = []
+mlig4_summary = []
+mlig5_summary = []
+
+ml1s1, ml2s1, ml3s1, ml4s1, ml5s1 = 0, 0, 0, 0, 0
+ml1s2, ml2s2, ml3s2, ml4s2, ml5s2 = 0, 0, 0, 0, 0
+ml1s3, ml2s3, ml3s3, ml4s3, ml5s3 = 0, 0, 0, 0, 0
+ml1s4, ml2s4, ml3s4, ml4s4, ml5s4 = 0, 0, 0, 0, 0
+ml1s5, ml2s5, ml3s5, ml4s5, ml5s5 = 0, 0, 0, 0, 0
+
+for a in range(len(mlig1)):
+  if mlig1[a] == 1:
+    ml1s1 += 1/len(mlig1)
+  elif mlig1[a] == 2:
+    ml2s1 += 1/len(mlig1)
+  elif mlig1[a] == 3:
+    ml3s1 += 1/len(mlig1)
+  elif mlig1[a] == 4:
+    ml4s1 += 1/len(mlig1)
+  elif mlig1[a] == 5:
+    ml5s1 += 1/len(mlig1)
+
+for a in range(len(mlig2)):
+  if mlig2[a] == 1:
+    ml1s2 += 1/len(mlig2)
+  elif mlig2[a] == 2:
+    ml2s2 += 1/len(mlig2)
+  elif mlig2[a] == 3:
+    ml3s2 += 1/len(mlig2)
+  elif mlig2[a] == 4:
+    ml4s2 += 1/len(mlig2)
+  elif mlig2[a] == 5:
+    ml5s2 += 1/len(mlig2)
+
+for a in range(len(mlig3)):
+  if mlig3[a] == 1:
+    ml1s3 += 1/len(mlig3)
+  elif mlig3[a] == 2:
+    ml2s3 += 1/len(mlig3)
+  elif mlig3[a] == 3:
+    ml3s3 += 1/len(mlig3)
+  elif mlig3[a] == 4:
+    ml4s3 += 1/len(mlig3)
+  elif mlig3[a] == 5:
+    ml5s3 += 1/len(mlig3)
+
+for a in range(len(mlig4)):
+  if mlig4[a] == 1:
+    ml1s4 += 1/len(mlig4)
+  elif mlig4[a] == 2:
+    ml2s4 += 1/len(mlig4)
+  elif mlig4[a] == 3:
+    ml3s4 += 1/len(mlig4)
+  elif mlig4[a] == 4:
+    ml4s4 += 1/len(mlig4)
+  elif mlig4[a] == 5:
+    ml5s4 += 1/len(mlig4)
+
+for a in range(len(mlig5)):
+  if mlig5[a] == 1:
+    ml1s5 += 1/len(mlig5)
+  elif mlig5[a] == 2:
+    ml2s5 += 1/len(mlig5)
+  elif mlig5[a] == 3:
+    ml3s5 += 1/len(mlig5)
+  elif mlig5[a] == 4:
+    ml4s5 += 1/len(mlig5)
+  elif mlig5[a] == 5:
+    ml5s5 += 1/len(mlig5)
+
+#Categorical v. Categorical
+labels = ['1', '2', '3', '4', '5']
+
+g1 = [ml1s1, ml1s2, ml1s3, ml1s4, ml1s5]
+g2 = [ml2s1, ml2s2, ml2s3, ml2s4, ml2s5]
+g3 = [ml3s1, ml3s2, ml3s3, ml3s4, ml3s5]
+g4 = [ml4s1, ml4s2, ml4s3, ml4s4, ml4s5]
+g5 = [ml5s1, ml5s2, ml5s3, ml5s4, ml5s5]
+
+width = 0.35       # the width of the bars: can also be len(x) sequence
+
+fig, ax = plt.subplots()
+
+ax.bar(labels, g1, width)
+ax.bar(labels, g2, width, bottom = g1)
+ax.bar(labels, g3, width, bottom = list(np.array(g1)+np.array(g2)))
+ax.bar(labels, g4, width, bottom = list(np.array(g1)+np.array(g2)+np.array(g3)))
+ax.bar(labels, g5, width, bottom = list(np.array(g1)+np.array(g2)+np.array(g3)+np.array(g4)))
+
+ax.set_ylabel('Distribution of Sleep Quality Responses (1-5)')
+ax.set_xlabel('External Light Exposure (1-5)')
+ax.set_title('Distributions of Sleep Quality Responses (1-5) for Varying Levels of External Light Exposure (1-5)')
+
+print("Blue: Frequency of '1' responses") 
+print("Orange: Frequency of '2' responses")
+print("Green: Frequency of '3' responses") 
+print("Red: Frequency of '4' responses")
+print("Purple: Frequency of '5' responses") 
+print('')
+plt.show()
+```
+    Blue: Frequency of '1' responses
+    Orange: Frequency of '2' responses
+    Green: Frequency of '3' responses
+    Red: Frequency of '4' responses
+    Purple: Frequency of '5' responses
+
+![img6](https://user-images.githubusercontent.com/97144011/168626964-c2b0dc2e-84eb-47e1-9f7d-70b3bc6b00bd.png)
 
