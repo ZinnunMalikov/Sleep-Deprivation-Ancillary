@@ -408,4 +408,7 @@ for a in range(row_num - 1):
 
 print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
 ```
+    The chi-squared statistic for ths test is: 235.6631248649211
+
+- The test statistic of 235.663 with a df = 12 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep time (hrs) in individuals like those surveyed.
 
