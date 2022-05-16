@@ -404,7 +404,7 @@ print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 235.6631248649211
 
-- The test statistic of 235.663 with a df = 12 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep time (hrs) in individuals like those surveyed.
+- The test statistic of 235.663 with a df = 12 yields a p-value far below 0.05 (p = 1.32 * 10^-43) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep time (hrs) in individuals like those surveyed.
 
 ## 4.2 Sleep Times (hrs) vs. Exposure to External Light (1-5)
 - We next investigated the relationship between sleep times (hrs) and exposure to external light (1-5).
@@ -577,7 +577,7 @@ print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 14.687197372831275
 
-- The test statistic of 14.687 with a df = 12 yields a p-value far above 0.05 so we fail to reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
+- The test statistic of 14.687 with a df = 12 yields a p-value far above 0.05 (p = 0.259) so we fail to reject Ho. There is not convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep time (hrs) in individuals like those surveyed. Upon closer examination, somewhat noticeable changes only occur in the group that responded with a '5' to the external light exposure question.
 
 ## 4.3 Sleep Quality (1-5) vs. Light Exposure (1-5)
 - To investigate the relationship between these two categorical variables, a segmented bar graph was constructed.
@@ -877,7 +877,7 @@ for a in range(row_num - 1):
 print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 71.8455958459828
-- The test statistic of 71.846 with a df = 16 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed.
+- The test statistic of 71.846 with a df = 16 yields a p-value far below 0.05 (p = 4.73 * 10^-9) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed.
 
 ## 4.4 Sleep Proportion
 - We now define the variable sleep proportion, which is the ratio of the estimated actual sleep time to the total time in bed. Note that due to estimation, some proportions were over 1. These values were rounded down to 1 for the purpose of data use.
@@ -1090,7 +1090,7 @@ for a in range(row_num - 1):
 print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for ths test is: 119.219445429627
-- The test statistic of 119.219 with a df = 12 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep proportion in individuals like those surveyed.
+- The test statistic of 119.219 with a df = 12 yields a p-value far below 0.05 (p = 8.84 * 10^-20) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep proportion in individuals like those surveyed.
 
 ## 4.6 Actual Sleep Times (hrs) vs. Sleep Proportion
 - Finally, a regression model between actual sleep time s(hrs) and sleep proprtion was created to visualize the correlation between the two variables.
