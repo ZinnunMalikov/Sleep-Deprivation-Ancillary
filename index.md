@@ -6,7 +6,6 @@ date:       2022-5-15
 author:     Zinnun Malikov
 header-img: 
 catalog: true
-image: /images/img1.png![img1](https://user-images.githubusercontent.com/97144011/168614537-c11a2700-eb81-41e1-a1a6-99c279d4c2fe.png)
 
 tags:
 
@@ -191,5 +190,5 @@ plt.show()
 ```
     [1.5357142857142858, 6.285714285714286, 7.0, 7.928571428571429, 12.75]
 
-![png](images/img1.png![img1](https://user-images.githubusercontent.com/97144011/168614537-c11a2700-eb81-41e1-a1a6-99c279d4c2fe.png))
+![png](/images/img1.png![img1](https://user-images.githubusercontent.com/97144011/168614537-c11a2700-eb81-41e1-a1a6-99c279d4c2fe.png))
 
