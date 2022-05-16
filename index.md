@@ -27,12 +27,21 @@ tags:
 - The National Sleep Foundation counducted an online survey study regarding the sleep of Americans in December 2014 and received responses from 1,029 adults aged 18 years or older. The survey asked participants about their sleep quality, time spent in bed, estimate of actual sleep obtained, etc.
 
 # 2. Introduction for Data Analysis
+## 2.1 Raw Data Variables
+- Names of variables in the csv file titled "2015data.csv" are listed below:
 1. `Q10_a`: sleep quality, 5-point Scale (1: very poor, 2: poor, 3: fair, 4: good, 5: very good)
 2. `DOV_WEEKTIME`: average minutes spent in bed per day on weekdays
 3. `DOV_WEEKEND`: average minutes spent in bed per day on weekends
 4. `DOV_TOTALWEEK`: estimate of actual sleep obtained per day on weekdays (in minutes)
 5. `DOV_TOTALWEEK`: estimate of actual sleep obtained per day on weekendss (in minutes)
 6. `Q15_c`: how often does light (from either inside or outside) make it more difficult to get a good night's sleep, 5-point Likert Scale (1: never, 2: rarely, 3: sometimes, 4: often, 5: always)
+
+## 2.2 Python Imports
+- The following packages, modules, or libraries were used:
+```python
+from google.colab import files
+uploaded = files.upload()
+```
 
 ```markdown
 Syntax highlighted code block
