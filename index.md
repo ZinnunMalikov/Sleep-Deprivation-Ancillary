@@ -1114,6 +1114,8 @@ print("LSRL: y = " + str(a) + " + " + str(b) + "x")
 print("r = " + str(r))
 plt.show()
 ```
+    LSRL: y = 2.477111181612429 + 5.262424688649582x
+    r = 0.5288522318690922
 ![img10](https://user-images.githubusercontent.com/97144011/168631527-2499fae4-cfee-4f2a-a097-51cb7538d6d7.png)
 - The regression model reveals that there is a moderately strong, positive, linear association between sleep proportion and sleep time (hrs). We confirmed this by constructing a residual plot.
 ```python
