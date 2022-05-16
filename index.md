@@ -409,4 +409,3 @@ for a in range(row_num - 1):
 print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
 ```
 
-
