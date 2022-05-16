@@ -876,7 +876,7 @@ for a in range(row_num - 1):
 print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 71.8455958459828
-- The test statistic of 71.846 with a df = 16 yields a p-value far above 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed.
+- The test statistic of 71.846 with a df = 16 yields a p-value far below 0.05 so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed.
 
 ## 4.4 Sleep Proportion
 - We now define the variable sleep proportion, which is the ratio of the estimated actual sleep time to the total time in bed. Note that due to estimation, some proportions were over 1. These values were rounded down to 1 for the purpose of data use.
