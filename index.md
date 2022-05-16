@@ -192,5 +192,53 @@ plt.show()
 
 ![img1](https://user-images.githubusercontent.com/97144011/168615643-21c49d95-154b-4727-b23b-8cc68d178892.png)
 
+## 3.2 Pie Chart Representation
+- To better visualize the data form the histogram above, two pie charts that divided individuals into groups by sleep times were created. The first chart included the following labels: '<6 hours', '6-7 hours', '7-8 hours', '8+ hours'. The second chart included the following labels: '<7 hours', '7+ hours'. Note thta the labels were created from general sleep time suggestions.
+```python
+#Percent of those who slept: (<6), (6-7), (7, 8), (8+) hours
+p1 = 0
+p2 = 0
+p3 = 0
+p4 = 0
+for num in avg_total:
+  if num < 6:
+    p1 += 1
+  elif num < 7:
+    p2 += 1
+  elif num < 8:
+    p3 += 1
+  else:
+    p4 += 1
+
+#Narrow Pie Chart
+labels = ["<6 hours", "6-7 hours", "7-8 hours", "8+ hours"]
+sizes = [p1, p2, p3, p4]
+explode=[0,0,0,0]
+
+plt.pie(sizes, autopct='%1.0f%%', explode=explode,labels=labels,shadow=True,startangle=90, )
+plt.axis("equal")
+plt.legend(title="Categorical Distribution of Sleep Time from 2015 Survey", loc = 'best')
+plt.subplots_adjust(left=0.2, bottom=0.1, right=2.5)
+plt.show()
+```
+![img2](https://user-images.githubusercontent.com/97144011/168616669-7c88274e-8532-436e-8641-67fe58225629.png)
+
+```python
+#Second Pie Chart
+labels = ["<7 hours", "7+ hours"]
+sizes = [p1+p2, p3+p4]
+explode=[0,0]
+
+plt.pie(sizes, autopct='%1.0f%%', explode=explode,labels=labels,shadow=True,startangle=90, )
+plt.axis("equal")
+plt.legend(title="Categorical Distribution of Sleep Times from 2015 Survey", loc = 'best')
+plt.subplots_adjust(left=0.2, bottom=0.1, right=2.5)
+plt.show()
+```
+![img3](https://user-images.githubusercontent.com/97144011/168616788-134e8f89-625f-4792-b443-f5e6f58449a3.png)
+
+Based on the data, it is evident that approximately 40% of the surveyed individuals slept for less than seven hours. This figure is concerning, as it highlights the presence of sleep deprivation in the United States. 
+
+
 
 
