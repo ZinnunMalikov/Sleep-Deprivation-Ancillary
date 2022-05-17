@@ -1106,7 +1106,7 @@ plt.xlabel("Sleep Proportion")
 plt.ylabel('Actual Sleep Time (hrs)')
 plt.title('Relationship Between Actual Seep Time (hrs) and Sleep Proportion')
 
-print("LSRL: y = " + str(a) + " + " + str(b) + "x")
+print("LSRL: y^ = " + str(a) + " + " + str(b) + "x")
 print("r = " + str(r))
 print("Sx: " + str(outpr[0]))
 print("Sy: " + str(outpr[1]))
@@ -1114,7 +1114,7 @@ plt.show()
 ```
     Sx: 0.1265597257047017
     Sy: 1.2593518283610086
-    LSRL: y = 2.477111181612429 + 5.262424688649582x
+    LSRL: y^ = 2.477111181612429 + 5.262424688649582x
     r = 0.5288522318690922
 ![img10](https://user-images.githubusercontent.com/97144011/168631527-2499fae4-cfee-4f2a-a097-51cb7538d6d7.png)
 - The regression model reveals that there is a moderately strong, positive, linear association between sleep proportion and sleep time (hrs). We confirmed this by constructing a residual plot.
