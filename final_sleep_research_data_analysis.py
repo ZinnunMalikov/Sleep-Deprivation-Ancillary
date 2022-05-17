@@ -15,6 +15,11 @@ uploaded = files.upload()
 #2015data.csv
 
 import copy
+import io
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 #Create Standard Dev
 def stan_dev(inp):
@@ -81,10 +86,6 @@ def five_sum(inp_li1):
 def isNaN(ni):
   return ni != ni
 
-import io
-import numpy as np
-import pandas as pd
-
 #Convert raw data to a usable dataframe array
 df_sleep = pd.read_csv(io.BytesIO(uploaded['2015data.csv']))
 array_sleep = df_sleep.to_numpy()
@@ -101,9 +102,6 @@ for a in range(len(avg_weekdays)):
     
 avg_total = list(np.add(avg_weekdays*5/(60*7), avg_weekends*2/(60*7)))
 #print(avg_total)
-
-import matplotlib.pyplot as plt
-import math
 
 #Make data
 x = avg_total
