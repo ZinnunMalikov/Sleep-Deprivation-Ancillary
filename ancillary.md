@@ -864,7 +864,7 @@ print(two_way_dfE)
 - The following code calculates the chi squared tets statistic for this test:
 ```python
 #Chi Squared Test Statistic
-#Note: Eight out of the twenty (40%) expected counts are under 5. Be cautious of the following results.
+#Note: Eight out of the twenty-five (32%) expected counts are under 5. Be cautious of the following results.
 
 row_num, col_num = two_way_tab2.shape
 
@@ -877,7 +877,7 @@ for a in range(row_num - 1):
 print("The chi-squared statistic for this test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for this test is: 71.8455958459828
-- The test statistic of 71.846 with a df = 16 yields a p-value far below 0.05 (p = 4.73 * 10^-9) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed. Note that since eight of the twenty (40%) expected counts are under 5, we should be cautious of the results. It may be beneficial to conduct a different follow-up test in future iterations.
+- The test statistic of 71.846 with a df = 16 yields a p-value far below 0.05 (p = 4.73 * 10^-9) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between external light exposure (1-5) and sleep quality (1-5) in individuals like those surveyed. Note that since eight of the twenty-five (32%) expected counts are under 5, we should be cautious of the results. It may be beneficial to conduct a different follow-up test in future iterations.
 
 ## 4.4 Sleep Proportion
 - We now define the variable sleep proportion, which is the ratio of the estimated actual sleep time to the total time in bed. Note that due to estimation, some proportions were over 1. These values were rounded down to 1 for the purpose of data use.
@@ -1077,7 +1077,7 @@ print(two_way_dfE)
 - The following code calculates the chi-squared tets statistic using the two two-way tables above.
 ```python
 #Chi Squared Test Statistic
-#Note: Four out of the twenty (20%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we should be cautious of the results.
+#Note: Five out of the twenty (25%) expected counts are under 5. For general purposes, the chi quared test will be continued, but we should be cautious of the results.
 
 row_num, col_num = two_way_tab2.shape
 
@@ -1090,7 +1090,7 @@ for a in range(row_num - 1):
 print("The chi-squared statistic for ths test is: " + str(chi_sq_stat))
 ```
     The chi-squared statistic for ths test is: 119.219445429627
-- The test statistic of 119.219 with a df = 12 yields a p-value far below 0.05 (p = 8.84 * 10^-20) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep proportion in individuals like those surveyed. Note that since four of the twenty (20%) expected counts are under 5, we should be cautious of the results.
+- The test statistic of 119.219 with a df = 12 yields a p-value far below 0.05 (p = 8.84 * 10^-20) so we reject Ho. There is convincing evidence at the 5% alpha level that there is an association between sleep quality (1-5) and sleep proportion in individuals like those surveyed. Note that since five of the twenty (25%) expected counts are under 5, we should be cautious of the results.
 
 ## 4.6 Actual Sleep Times (hrs) vs. Sleep Proportion
 - Finally, a regression model between actual sleep time s(hrs) and sleep proprtion was created to visualize the correlation between the two variables.
